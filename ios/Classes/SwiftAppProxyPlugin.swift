@@ -35,8 +35,8 @@ public class SwiftAppProxyPlugin: NSObject, FlutterPlugin {
             
             return [
                 "HttpProxyAddress":HttpProxyAddress ?? "",
-                "HttpProxyPort":HttpProxyPort ?? "",
-                "HttpProxyEnable":HttpProxyEnable ?? "",
+                "HttpProxyPort":HttpProxyPort ?? 0,
+                "HttpProxyEnable":HttpProxyEnable ?? 0,
             ];
 
         }else{

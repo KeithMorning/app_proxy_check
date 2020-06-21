@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class AppProxyInfo{
   final String proxyAddress;
-  final String proxyPort;
+  final int proxyPort;
   final bool proxyEnable;
 
   AppProxyInfo({this.proxyAddress,this.proxyPort,this.proxyEnable});
@@ -26,12 +26,12 @@ class AppProxy {
   }
 
   static Future<AppProxyInfo> checkProxyEnable() async {
-    final Map<String,dynamic> proxyInfo = await _channel.invokeMethod("getProxyInfo");
+      var proxyInfo = await _channel.invokeMethod("getProxyInfo");
+      if(proxyInfo["PROXYENABLE"] == false){
+        return AppProxyInfo(proxyEnable: false);
+      }else{
+        return AppProxyInfo(proxyAddress: proxyInfo[_proxyAddressKey],proxyPort: proxyInfo[_proxyPortKey],proxyEnable: proxyInfo[_proxyHttpEnableKey]==1?true:false);
+      }
     
-    if(proxyInfo["PROXYENABLE"] == false){
-      return AppProxyInfo(proxyEnable: false);
-    }else{
-      return AppProxyInfo(proxyAddress: proxyInfo[_proxyAddressKey],proxyPort: proxyInfo[_proxyPortKey],proxyEnable: proxyInfo[_proxyHttpEnableKey]);
-    }
   }
 }
